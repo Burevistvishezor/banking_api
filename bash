@@ -5,4 +5,3 @@ git remote add origin https://github.com/Burevistvishezor/banking_api.git
 git branch -M main
 git push -u origin main
 git remote remove origin
-git remote add origin https://github.com/Burevistvishezor/banking_api.git
