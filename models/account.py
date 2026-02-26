@@ -1,3 +1,5 @@
+from sqlalchemy.orm import relationshi
+accounts = relationship("Account", back_populates="owner")
 from sqlalchemy import Column, Integer, ForeignKey, Numeric, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
