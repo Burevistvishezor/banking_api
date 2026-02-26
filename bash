@@ -12,3 +12,5 @@ origin  https://github.com/Burevistvishezor/banking_api.git (push)
 git push -u origin main
 git branch
 git push -u origin master
+docker-compose up --build
+http://localhost:8000/docs
