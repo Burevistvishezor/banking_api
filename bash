@@ -8,7 +8,8 @@ git remote remove origin
 
 git remote -v
 origin  https://github.com/Burevistvishezor/banking_api.git (fetch)
-origin  https://github.com/Burevistvishezor/banking_api.git (push)
+origin 
+Base.metadata.create_all(bind=engine) https://github.com/Burevistvishezor/banking_api.git (push)
 git push -u origin main
 git branch
 git push -u origin master
