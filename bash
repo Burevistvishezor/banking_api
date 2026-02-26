@@ -15,3 +15,5 @@ git branch
 git push -u origin master
 docker-compose up --build
 http://localhost:8000/docs
+
+docker-compose up --build
