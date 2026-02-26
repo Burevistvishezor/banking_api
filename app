@@ -17,3 +17,16 @@ class User(Base):
     is_admin = Column(Boolean, default=False)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+app/main.py
+from fastapi import FastAPI
+from app.database import engine, Base
+
+app = FastAPI(title="Banking API")
+
+# создаём таблицы (пока без Alembic)
+Base.metadata.create_all(bind=engine)
+
+
+@app.get("/")
+def root():
+    return {"message": "Banking API is running"}
