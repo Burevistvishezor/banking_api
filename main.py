@@ -6,3 +6,6 @@ from app.database import engine
 from app.models import user, account
 
 Base.metadata.create_all(bind=engine)
+from app.routers import account
+
+app.include_router(account.router)
