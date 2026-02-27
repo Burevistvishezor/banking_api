@@ -95,3 +95,20 @@ def get_account(
         raise HTTPException(status_code=403, detail="Not authorized")
 
     return account
+
+from sqlalchemy import Column, Integer, ForeignKey, Numeric, DateTime, String
+from sqlalchemy.sql import func
+from app.database import Base
+
+
+class Transaction(Base):
+    __tablename__ = "transactions"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    from_account_id = Column(Integer, ForeignKey("accounts.id"), nullable=True)
+    to_account_id = Column(Integer, ForeignKey("accounts.id"), nullable=True)
+
+    amount = Column(Numeric(12, 2), nullable=False)
+    type = Column(String, nullable=False)  # deposit / transfer
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
