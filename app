@@ -55,3 +55,43 @@ def create_access_token(data: dict):
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from app.database import get_db
+from app.models.account import Account
+from app.models.user import User
+from app.schemas.account import AccountResponse
+from app.core.security import get_current_user
+
+router = APIRouter(prefix="/accounts", tags=["Accounts"])
+
+
+# 🔹 Создать счёт
+@router.post("/", response_model=AccountResponse)
+def create_account(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    account = Account(owner_id=current_user.id)
+    db.add(account)
+    db.commit()
+    db.refresh(account)
+    return account
+
+
+# 🔹 Получить конкретный счёт
+@router.get("/{account_id}", response_model=AccountResponse)
+def get_account(
+    account_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    account = db.query(Account).filter(Account.id == account_id).first()
+
+    if not account:
+        raise HTTPException(status_code=404, detail="Account not found")
+
+    if account.owner_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    return account
